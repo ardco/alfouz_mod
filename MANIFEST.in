@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include alfouz_mod *.css
+recursive-include alfouz_mod *.csv
+recursive-include alfouz_mod *.html
+recursive-include alfouz_mod *.ico
+recursive-include alfouz_mod *.js
+recursive-include alfouz_mod *.json
+recursive-include alfouz_mod *.md
+recursive-include alfouz_mod *.png
+recursive-include alfouz_mod *.py
+recursive-include alfouz_mod *.svg
+recursive-include alfouz_mod *.txt
+recursive-exclude alfouz_mod *.pyc
