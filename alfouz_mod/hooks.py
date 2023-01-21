@@ -9,6 +9,10 @@ app_color = "green"
 app_email = "ard.ly"
 app_license = "Copyright"
 
+
+fixtures = ['Custom Field']
+
+
 # Includes in <head>
 # ------------------
 
@@ -106,23 +110,23 @@ app_license = "Copyright"
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#	"all": [
-#		"alfouz_mod.tasks.all"
-#	],
-#	"daily": [
-#		"alfouz_mod.tasks.daily"
-#	],
-#	"hourly": [
-#		"alfouz_mod.tasks.hourly"
-#	],
-#	"weekly": [
-#		"alfouz_mod.tasks.weekly"
-#	]
-#	"monthly": [
-#		"alfouz_mod.tasks.monthly"
-#	]
-# }
+scheduler_events = {
+    #	"all": [
+    #		"alfouz_mod.tasks.all"
+    #	],
+    "daily": [
+        "alfouz_mod.emp_working_years.calculating_employee_life"
+    ],
+    #	"hourly": [
+    #		"alfouz_mod.tasks.hourly"
+    #	],
+    #	"weekly": [
+    #		"alfouz_mod.tasks.weekly"
+    #	]
+    #	"monthly": [
+    #		"alfouz_mod.tasks.monthly"
+    #	]
+}
 
 # Testing
 # -------
@@ -152,24 +156,24 @@ app_license = "Copyright"
 # --------------------
 
 user_data_fields = [
-	{
-		"doctype": "{doctype_1}",
-		"filter_by": "{filter_by}",
-		"redact_fields": ["{field_1}", "{field_2}"],
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_2}",
-		"filter_by": "{filter_by}",
-		"partial": 1,
-	},
-	{
-		"doctype": "{doctype_3}",
-		"strict": False,
-	},
-	{
-		"doctype": "{doctype_4}"
-	}
+    {
+        "doctype": "{doctype_1}",
+        "filter_by": "{filter_by}",
+        "redact_fields": ["{field_1}", "{field_2}"],
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_2}",
+        "filter_by": "{filter_by}",
+        "partial": 1,
+    },
+    {
+        "doctype": "{doctype_3}",
+        "strict": False,
+    },
+    {
+        "doctype": "{doctype_4}"
+    }
 ]
 
 # Authentication and authorization
@@ -178,4 +182,3 @@ user_data_fields = [
 # auth_hooks = [
 #	"alfouz_mod.auth.validate"
 # ]
-
