@@ -48,7 +48,7 @@ fixtures = ['Custom Field']
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# "Role": "home_page"
 # }
 
 # Generators
@@ -80,52 +80,53 @@ fixtures = ['Custom Field']
 # Permissions evaluated in scripted ways
 
 # permission_query_conditions = {
-#	"Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
+# "Event": "frappe.desk.doctype.event.event.get_permission_query_conditions",
 # }
 #
 # has_permission = {
-#	"Event": "frappe.desk.doctype.event.event.has_permission",
+# "Event": "frappe.desk.doctype.event.event.has_permission",
 # }
 
 # DocType Class
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
-#	"ToDo": "custom_app.overrides.CustomToDo"
-# }
+override_doctype_class = {
+# "ToDo": "custom_app.overrides.CustomToDo"
+"Employee": "alfouz_mod.overrides.Employee"
+}
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
 # doc_events = {
-#	"*": {
-#		"on_update": "method",
-#		"on_cancel": "method",
-#		"on_trash": "method"
-#	}
+# "*": {
+# "on_update": "method",
+# "on_cancel": "method",
+# "on_trash": "method"
+# }
 # }
 
 # Scheduled Tasks
 # ---------------
 
 scheduler_events = {
-    #	"all": [
-    #		"alfouz_mod.tasks.all"
-    #	],
+    # "all": [
+    # "alfouz_mod.tasks.all"
+    # ],
     "daily": [
-        "alfouz_mod.emp_working_years.calculating_employee_life"
+        "alfouz_mod.emp_working_years.recalculate_years_of_work"
     ],
-    #	"hourly": [
-    #		"alfouz_mod.tasks.hourly"
-    #	],
-    #	"weekly": [
-    #		"alfouz_mod.tasks.weekly"
-    #	]
-    #	"monthly": [
-    #		"alfouz_mod.tasks.monthly"
-    #	]
+    # "hourly": [
+    # "alfouz_mod.tasks.hourly"
+    # ],
+    # "weekly": [
+    # "alfouz_mod.tasks.weekly"
+    # ]
+    # "monthly": [
+    # "alfouz_mod.tasks.monthly"
+    # ]
 }
 
 # Testing
@@ -137,14 +138,14 @@ scheduler_events = {
 # ------------------------------
 #
 # override_whitelisted_methods = {
-#	"frappe.desk.doctype.event.event.get_events": "alfouz_mod.event.get_events"
+# "frappe.desk.doctype.event.event.get_events": "alfouz_mod.event.get_events"
 # }
 #
 # each overriding function accepts a `data` argument;
 # generated from the base implementation of the doctype dashboard,
 # along with any modifications made in other Frappe apps
 # override_doctype_dashboards = {
-#	"Task": "alfouz_mod.task.get_dashboard_data"
+# "Task": "alfouz_mod.task.get_dashboard_data"
 # }
 
 # exempt linked doctypes from being automatically cancelled
@@ -180,5 +181,5 @@ user_data_fields = [
 # --------------------------------
 
 # auth_hooks = [
-#	"alfouz_mod.auth.validate"
+# "alfouz_mod.auth.validate"
 # ]

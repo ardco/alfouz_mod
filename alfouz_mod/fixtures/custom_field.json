@@ -15,7 +15,7 @@
   "fetch_from": null,
   "fetch_if_empty": 0,
   "fieldname": "working_years",
-  "fieldtype": "Float",
+  "fieldtype": "Int",
   "hidden": 0,
   "hide_border": 0,
   "hide_days": 0,
