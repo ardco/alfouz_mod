@@ -112,12 +112,17 @@ override_doctype_class = {
 # ---------------
 
 scheduler_events = {
+    "cron":{
+        "0 0 1 1 *": [
+            "fouz.api.recalculate_years_of_work"
+        ]
+    },
     # "all": [
     # "alfouz_mod.tasks.all"
     # ],
-    "daily": [
-        "alfouz_mod.emp_working_years.recalculate_years_of_work"
-    ],
+    # "daily": [
+    #     "alfouz_mod.emp_working_years.recalculate_years_of_work"
+    # ],
     # "hourly": [
     # "alfouz_mod.tasks.hourly"
     # ],
