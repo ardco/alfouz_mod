@@ -23,14 +23,14 @@ def calculating_employee_life():
 
 def recalculate_years_of_work():
     current_date = datetime.now()
-    for employee in frappe.get_all("Employee", filters={"status": "Active"}):
+    for employee in frappe.get_all("Employee", filters={"status": "Active"}, pluck='name'):
         joining_date = frappe.db.get_value(
-            "Employee", employee.name, "date_of_joining")
+            "Employee", employee, "date_of_joining")
         years_of_work = current_date.year - joining_date.year
         if joining_date.month > 6:
             years_of_work -= 1
         if years_of_work < 1:
             years_of_work = 0
-        frappe.db.set_value("Employee", employee.name,
+        frappe.db.set_value("Employee", employee,
                             "working_years", years_of_work)
     frappe.db.commit()
