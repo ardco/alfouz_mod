@@ -91,22 +91,22 @@ fixtures = ['Custom Field']
 # ---------------
 # Override standard doctype classes
 
-override_doctype_class = {
+# override_doctype_class = {
 # "ToDo": "custom_app.overrides.CustomToDo"
-"Employee": "alfouz_mod.overrides.Employee"
-}
+# "Employee": "alfouz_mod.overrides.Employee"
+# }
 
 # Document Events
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# "*": {
-# "on_update": "method",
+doc_events = {
+"*": {
+"on_update": "alfouz_mod.emp_working_years.recalculate_years_of_work",
 # "on_cancel": "method",
 # "on_trash": "method"
-# }
-# }
+}
+}
 
 # Scheduled Tasks
 # ---------------
