@@ -10,7 +10,7 @@ app_email = "ard.ly"
 app_license = "Copyright"
 
 
-fixtures = ['Custom Field']
+fixtures = ['Custom Field' , 'Translation']
 
 
 # Includes in <head>
@@ -91,10 +91,11 @@ fixtures = ['Custom Field']
 # ---------------
 # Override standard doctype classes
 
-# override_doctype_class = {
+override_doctype_class = {
 # "ToDo": "custom_app.overrides.CustomToDo"
 # "Employee": "alfouz_mod.overrides.Employee"
-# }
+"Salary Slip":"alfouz_mod.overrid_salary_slip.overrid_salary_slip"
+}
 
 # Document Events
 # ---------------
@@ -107,32 +108,36 @@ doc_events = {
 # "on_trash": "method"
 }
 }
-
+# doc_events = {
+#     "Salary Slip" :{
+#     "validate": "alfouz_mod.salary.calculate_late_houres"
+#     }
+#     }
 # Scheduled Tasks
 # ---------------
 
-scheduler_events = {
-    "cron":{
-        "0 0 1 1 *": [
-            "alfouz_mod.emp_working_years.recalculate_years_of_work"
-        ]
-    },
-    # "all": [
-    # "alfouz_mod.tasks.all"
-    # ],
-    # "daily": [
-    #     "alfouz_mod.emp_working_years.recalculate_years_of_work"
-    # ],
-    # "hourly": [
-    # "alfouz_mod.tasks.hourly"
-    # ],
-    # "weekly": [
-    # "alfouz_mod.tasks.weekly"
-    # ]
-    # "monthly": [
-    # "alfouz_mod.tasks.monthly"
-    # ]
-}
+# scheduler_events = {
+#     "cron":{
+#         "0 0 1 1 *": [
+#             "alfouz_mod.emp_working_years.recalculate_years_of_work"
+#         ]
+#     },
+#     # "all": [
+#     # "alfouz_mod.tasks.all"
+#     # ],
+#     # "daily": [
+#     #     "alfouz_mod.emp_working_years.recalculate_years_of_work"
+#     # ],
+#     # "hourly": [
+#     # "alfouz_mod.tasks.hourly"
+#     # ],
+#     # "weekly": [
+#     # "alfouz_mod.tasks.weekly"
+#     # ]
+#     # "monthly": [
+#     # "alfouz_mod.tasks.monthly"
+#     # ]
+# }
 
 # Testing
 # -------

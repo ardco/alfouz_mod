@@ -2,7 +2,7 @@ import frappe
 from datetime import datetime
 
 
-def calculating_employee_life():
+def calculating_employee_life(doc , method):
     today = frappe.utils.nowdate()
     docs = frappe.get_list('Employee', pluck='name')
     for doc in docs:
@@ -21,7 +21,7 @@ def calculating_employee_life():
             frappe.db.commit()
 
 
-def recalculate_years_of_work():
+def recalculate_years_of_work(doc , method):
     current_date = datetime.now()
     for employee in frappe.get_all("Employee", filters={"status": "Active"}, pluck='name'):
         joining_date = frappe.db.get_value(
