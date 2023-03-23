@@ -56,7 +56,8 @@ class overrid_salary_slip(SalarySlip):
 			if payroll_based_on == "Attendance":
 				self.payment_days -= flt(absent)
 
-			unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
+			# unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
+			unmarked_days = self.get_unmarked_days()
 			consider_unmarked_attendance_as = frappe.db.get_value("Payroll Settings", None, "consider_unmarked_attendance_as") or "Present"
 
 			if payroll_based_on == "Attendance" and consider_unmarked_attendance_as =="Absent":
@@ -89,8 +90,9 @@ def calculate_late_houres(doc):
         start = shift_actual_timings[2].start_datetime
         end =get_datetime(t.in_time)
         diff_time = end - start
-        if(diff_time.total_seconds() / 60 >= 6):
-            total_minutes_delay += round(diff_time.total_seconds() / 60 , 1)
+        # print(diff_time)
+        # if(diff_time.total_seconds() / 60 >= 6):
+        total_minutes_delay += math.floor(diff_time.total_seconds() / 60)
     doc.minutes_delay= total_minutes_delay 
 
 def fetch_shift(self):
