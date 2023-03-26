@@ -101,13 +101,13 @@ override_doctype_class = {
 # ---------------
 # Hook on document methods and events
 
-doc_events = {
-"*": {
-"on_update": "alfouz_mod.emp_working_years.recalculate_years_of_work",
-# "on_cancel": "method",
-# "on_trash": "method"
-}
-}
+# doc_events = {
+# "*": {
+# "on_update": "alfouz_mod.emp_working_years.recalculate_years_of_work",
+# # "on_cancel": "method",
+# # "on_trash": "method"
+# }
+# }
 # doc_events = {
 #     "Salary Slip" :{
 #     "validate": "alfouz_mod.salary.calculate_late_houres"
@@ -116,12 +116,12 @@ doc_events = {
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-#     "cron":{
-#         "0 0 1 1 *": [
-#             "alfouz_mod.emp_working_years.recalculate_years_of_work"
-#         ]
-#     },
+scheduler_events = {
+    "cron":{
+        "0 0 1 1 *": [
+            "alfouz_mod.emp_working_years.recalculate_years_of_work"
+        ]
+    },
 #     # "all": [
 #     # "alfouz_mod.tasks.all"
 #     # ],
@@ -137,7 +137,7 @@ doc_events = {
 #     # "monthly": [
 #     # "alfouz_mod.tasks.monthly"
 #     # ]
-# }
+}
 
 # Testing
 # -------
