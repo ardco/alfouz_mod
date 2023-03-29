@@ -19,7 +19,7 @@ def get_url():
 
 
 @frappe.whitelist()
-def fetch_transactions(date):
+def fetch_transactions(start_date,end_date):
     tokan = get_tokan()
     main_url = get_url()
 
@@ -30,8 +30,8 @@ def fetch_transactions(date):
 
     transactions_list = []
 
-    start_date = get_first_day(date).strftime("%Y-%m-%d %H:%M:%S")
-    end_date = get_last_day(date).strftime("%Y-%m-%d %H:%M:%S")
+    # start_date = get_first_day(date).strftime("%Y-%m-%d %H:%M:%S")
+    # end_date = get_last_day(date).strftime("%Y-%m-%d %H:%M:%S")
 
     is_next_page = True
     url = f"{main_url}/iclock/api/transactions/?start_time={start_date}&end_time={end_date}"
