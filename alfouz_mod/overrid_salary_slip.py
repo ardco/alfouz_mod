@@ -89,9 +89,10 @@ def calculate_late_houres(doc):
         start = shift_actual_timings[2].start_datetime
         end =get_datetime(t.in_time)
         diff_time = end - start
+        # print(diff_time)
         # if(diff_time.total_seconds() / 60 >= 6):
-        total_minutes_delay += diff_time.total_seconds()
-    doc.minutes_delay= round(total_minutes_delay / 60 , 1) 
+        total_minutes_delay += round(diff_time.total_seconds() / 60)
+    doc.minutes_delay= total_minutes_delay 
 
 def fetch_shift(self):
         shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(now()), True)
