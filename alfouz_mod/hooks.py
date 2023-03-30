@@ -94,7 +94,8 @@ fixtures = ['Custom Field' , 'Translation']
 override_doctype_class = {
 # "ToDo": "custom_app.overrides.CustomToDo"
 # "Employee": "alfouz_mod.overrides.Employee"
-"Salary Slip":"alfouz_mod.overrid_salary_slip.overrid_salary_slip"
+"Salary Slip":"alfouz_mod.overrid_salary_slip.overrid_salary_slip",
+"Shift Type":"alfouz_mod.overrid_shift_type.overrid_shift_type"
 }
 
 # Document Events
