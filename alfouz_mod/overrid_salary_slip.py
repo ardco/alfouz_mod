@@ -33,7 +33,7 @@ class overrid_salary_slip(SalarySlip):
 		if payroll_based_on == "Attendance":
 			actual_lwp, absent = self.calculate_lwp_ppl_and_absent_days_based_on_attendance(holidays)
 			self.absent_days = absent
-			calculate_late_houres(self)
+			self.late_in = calculate_late_houres(self)
 			self.forget_fingerprint=calculate_forget_fingerprints(self)
 		else:
 			actual_lwp = self.calculate_lwp_or_ppl_based_on_leave_application(holidays, working_days)
@@ -92,8 +92,35 @@ def calculate_late_houres(doc):
         diff_time = end - start
         # print(diff_time)
         # if(diff_time.total_seconds() / 60 >= 6):
-        total_minutes_delay += round(diff_time.total_seconds() / 60)
-    doc.minutes_delay= total_minutes_delay 
+        total_minutes_delay += round (diff_time.total_seconds() / 60)
+    # doc.minutes_delay= total_minutes_delay 
+        return (total_minutes_delay )
+    
+def calculate_early_exit(doc):
+	shift_type=fetch_shift(doc)
+	if not (shift_type):
+		frappe.msgprint(_("This employee dose not have shift assignment active to determine the delay time"))
+	attendances = frappe.db.sql('''
+    SELECT attendance_date, status, leave_type ,  out_time
+    FROM `tabAttendance`
+    WHERE
+    status = "Present" AND early_exit = 1
+    AND employee = %s
+    AND docstatus = 1
+    AND attendance_date between %s and %s
+    ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
+	total_minutes_delay = 0
+	for t in attendances:
+		shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
+		start = get_datetime(t.out_time)
+		start = shift_actual_timings[2].start_datetime
+		end = shift_actual_timings[2].end_datetime
+		diff_time = end - start
+        # print(diff_time)
+        # if(diff_time.total_seconds() / 60 >= 6):
+		total_minutes_delay += round (diff_time.total_seconds() / 60)
+    # doc.minutes_delay= total_minutes_delay 
+		return (total_minutes_delay )
 
 def fetch_shift(self):
         shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(self.start_date), True)
