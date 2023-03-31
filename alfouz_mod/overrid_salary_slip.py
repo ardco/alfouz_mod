@@ -56,8 +56,8 @@ class overrid_salary_slip(SalarySlip):
 			if payroll_based_on == "Attendance":
 				self.payment_days -= flt(absent)
 
-			# unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
-			unmarked_days = self.get_unmarked_days()
+			unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
+# 			unmarked_days = self.get_unmarked_days()
 			consider_unmarked_attendance_as = frappe.db.get_value("Payroll Settings", None, "consider_unmarked_attendance_as") or "Present"
 
 			if payroll_based_on == "Attendance" and consider_unmarked_attendance_as =="Absent":
