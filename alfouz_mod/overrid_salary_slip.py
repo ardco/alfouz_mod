@@ -98,7 +98,7 @@ def calculate_late_houres(doc):
 def fetch_shift(self):
         shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(self.start_date), True)
         if shift_actual_timings[2]:
-            print(shift_actual_timings[2].shift_type.name)
+            return (shift_actual_timings[2].shift_type.name)
         else:
             return ( None)
 def calculate_forget_fingerprints(doc):
