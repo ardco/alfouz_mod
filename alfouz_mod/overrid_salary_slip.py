@@ -91,7 +91,7 @@ def calculate_late_houres(doc):
         diff_time = end - start
         # print(diff_time)
         # if(diff_time.total_seconds() / 60 >= 6):
-        total_minutes_delay += math.floor(diff_time.total_seconds() / 60)
+        total_minutes_delay += round(diff_time.total_seconds() / 60)
     doc.minutes_delay= total_minutes_delay 
 
 def fetch_shift(self):
