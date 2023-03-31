@@ -56,7 +56,8 @@ class overrid_salary_slip(SalarySlip):
 			if payroll_based_on == "Attendance":
 				self.payment_days -= flt(absent)
 
-			unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
+			# unmarked_days = self.get_unmarked_days(include_holidays_in_total_working_days)
+			unmarked_days = self.get_unmarked_days()
 			consider_unmarked_attendance_as = frappe.db.get_value("Payroll Settings", None, "consider_unmarked_attendance_as") or "Present"
 
 			if payroll_based_on == "Attendance" and consider_unmarked_attendance_as =="Absent":
@@ -71,7 +72,7 @@ class overrid_salary_slip(SalarySlip):
 		
 def calculate_late_houres(doc):
     shift_type=fetch_shift(doc)
-    shift_type=doc.shift
+    # shift_type=doc.shift
     if not (shift_type):
         frappe.msgprint(_("This employee dose not have shift assignment active to determine the delay time"))
     attendances = frappe.db.sql('''
@@ -91,19 +92,15 @@ def calculate_late_houres(doc):
         diff_time = end - start
         # print(diff_time)
         # if(diff_time.total_seconds() / 60 >= 6):
-        total_minutes_delay += round(diff_time.total_seconds() / 60)
+        total_minutes_delay += math.floor(diff_time.total_seconds() / 60)
     doc.minutes_delay= total_minutes_delay 
 
 def fetch_shift(self):
-        shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(now()), True)
-        if shift_actual_timings[0] and shift_actual_timings[1]:
-            self.shift = shift_actual_timings[2].shift_type.name
-            self.shift_actual_start = shift_actual_timings[0]
-            self.shift_actual_end = shift_actual_timings[1]
-            self.shift_start = shift_actual_timings[2].start_datetime
-            self.shift_end = shift_actual_timings[2].end_datetime
+        shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(self.start_date), True)
+        if shift_actual_timings[2]:
+            print(shift_actual_timings[2].shift_type.name)
         else:
-            self.shift = None
+            return ( None)
 def calculate_forget_fingerprints(doc):
 	total_number_of_forget_fingerprints= 40
 	attendances = frappe.db.sql('''
