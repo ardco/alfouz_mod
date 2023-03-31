@@ -34,6 +34,7 @@ class overrid_salary_slip(SalarySlip):
 			actual_lwp, absent = self.calculate_lwp_ppl_and_absent_days_based_on_attendance(holidays)
 			self.absent_days = absent
 			self.late_in = calculate_late_houres(self)
+			self.early_out = calculate_early_exit(self)
 			self.forget_fingerprint=calculate_forget_fingerprints(self)
 		else:
 			actual_lwp = self.calculate_lwp_or_ppl_based_on_leave_application(holidays, working_days)
