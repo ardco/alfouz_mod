@@ -72,10 +72,6 @@ class overrid_salary_slip(SalarySlip):
 			self.payment_days = 0
 		
 def calculate_late_houres(doc):
-    shift_type=fetch_shift(doc)
-    # shift_type=doc.shift
-    if not (shift_type):
-        frappe.msgprint(_("This employee dose not have shift assignment active to determine the delay time"))
     attendances = frappe.db.sql('''
     SELECT attendance_date, status, leave_type ,  in_time
     FROM `tabAttendance`
@@ -114,7 +110,6 @@ def calculate_early_exit(doc):
 	for t in attendances:
 		shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
 		start = get_datetime(t.out_time)
-		start = shift_actual_timings[2].start_datetime
 		end = shift_actual_timings[2].end_datetime
 		diff_time = end - start
         # print(diff_time)
