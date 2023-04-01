@@ -91,7 +91,7 @@ def calculate_late_houres(doc):
         print(diff_time.total_seconds() / 60)
         # if(diff_time.total_seconds() / 60 >= 6):
         total_minutes_delay += round (diff_time.total_seconds() / 60)
-		print(total_minutes_delay)
+        print(total_minutes_delay)
     # doc.minutes_delay= total_minutes_delay 
         return (total_minutes_delay )
     
