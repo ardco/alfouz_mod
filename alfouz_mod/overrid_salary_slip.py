@@ -108,7 +108,7 @@ def calculate_early_exit(doc):
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
 	total_early_out = 0
 	for t in attendances:
-		shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
+		shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.out_time), True)
 		start = get_datetime(t.out_time)
 		end = shift_actual_timings[2].end_datetime
 		diff_time = end - start
