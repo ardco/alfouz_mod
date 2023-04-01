@@ -18,5 +18,5 @@ class exitpermit(Document):
 		if diff.total_seconds() <= 0:
 			frappe.throw(_("From time must be greater than to time"))
 		else:
-			self.duration = round( diff.total_seconds() / 3600 , 2)
+			self.duration = round( diff.total_seconds() / 60 , 2)
 		
