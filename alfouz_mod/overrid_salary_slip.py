@@ -143,8 +143,9 @@ def calculate_exit_permit(doc):
          FROM `tabexit permit`
          WHERE
          docstatus = 1 
+	 	 AND employee = %s
          AND to_date between %s and %s
-         ''', values=(doc.start_date, doc.end_date), as_dict=1)
+         ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
 	if exit_permit:
 		total_duration = exit_permit[0].duration
 		total_duration = sum(item['duration'] for item in exit_permit)
