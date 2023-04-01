@@ -83,13 +83,15 @@ def calculate_late_houres(doc):
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
     total_minutes_delay = 0
     for t in attendances:
+        print("hi")
         shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
         start = shift_actual_timings[2].start_datetime
         end =get_datetime(t.in_time)
         diff_time = end - start
-        # print(diff_time)
+        print(diff_time.total_seconds() / 60)
         # if(diff_time.total_seconds() / 60 >= 6):
         total_minutes_delay += round (diff_time.total_seconds() / 60)
+		print(total_minutes_delay)
     # doc.minutes_delay= total_minutes_delay 
         return (total_minutes_delay )
     
