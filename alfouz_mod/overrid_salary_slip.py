@@ -112,9 +112,10 @@ def calculate_early_exit(doc):
 		start = get_datetime(t.out_time)
 		end = shift_actual_timings[2].end_datetime
 		diff_time = end - start
-        # print(diff_time)
+        	print(diff_time.total_seconds() / 60)
         # if(diff_time.total_seconds() / 60 >= 6):
 		total_early_out += round (diff_time.total_seconds() / 60)
+		print(total_early_out)
     # doc.minutes_delay= total_minutes_delay 
 		return (total_early_out )
 
