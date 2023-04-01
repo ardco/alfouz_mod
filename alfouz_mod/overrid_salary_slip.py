@@ -94,7 +94,7 @@ def calculate_late_houres(doc):
         total_minutes_delay += round (diff_time.total_seconds() / 60)
         print(total_minutes_delay)
     # doc.minutes_delay= total_minutes_delay 
-        return (total_minutes_delay )
+    return (total_minutes_delay )
     
 def calculate_early_exit(doc):
 	shift_type=fetch_shift(doc)
@@ -121,7 +121,7 @@ def calculate_early_exit(doc):
 		total_early_out += round (diff_time.total_seconds() / 60)
 		print(total_early_out)
     # doc.minutes_delay= total_minutes_delay 
-		return (total_early_out )
+	return (total_early_out )
 
 def fetch_shift(self):
         shift_actual_timings = get_actual_start_end_datetime_of_shift(self.employee, get_datetime(self.start_date), True)
