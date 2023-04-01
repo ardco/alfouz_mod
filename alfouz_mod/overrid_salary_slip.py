@@ -72,7 +72,7 @@ class overrid_salary_slip(SalarySlip):
 			self.payment_days = 0
 		
 def calculate_late_houres(doc):
-    attendances = frappe.db.sql('''
+    attendances_recored = frappe.db.sql('''
     SELECT attendance_date, status, leave_type ,  in_time
     FROM `tabAttendance`
     WHERE
@@ -82,7 +82,8 @@ def calculate_late_houres(doc):
     AND attendance_date between %s and %s
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
     total_minutes_delay = 0
-    for t in attendances:
+    print(len(attendances_recored))
+    for t in attendances_recored:
         print("hi")
         shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
         start = shift_actual_timings[2].start_datetime
