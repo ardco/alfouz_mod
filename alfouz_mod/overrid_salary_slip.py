@@ -35,6 +35,7 @@ class overrid_salary_slip(SalarySlip):
 			self.absent_days = absent
 			self.late_in = calculate_late_houres(self)
 			self.early_out = calculate_early_exit(self)
+			self.exit_permit = calculate_exit_permit(self)
 			self.forget_fingerprint=calculate_forget_fingerprints(self)
 		else:
 			actual_lwp = self.calculate_lwp_or_ppl_based_on_leave_application(holidays, working_days)
@@ -72,23 +73,23 @@ class overrid_salary_slip(SalarySlip):
 			self.payment_days = 0
 		
 def calculate_late_houres(doc):
-    attendances_recored = frappe.db.sql('''
+    attendances = frappe.db.sql('''
     SELECT attendance_date, status, leave_type ,  in_time
     FROM `tabAttendance`
     WHERE
-    status = "Present" AND late_entry = 1
+    status = "Present" AND 
+	late_entry = 1
     AND employee = %s
     AND docstatus = 1
     AND attendance_date between %s and %s
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
     total_minutes_delay = 0
-    for att in attendances_recored:
-        shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(att.in_time), True)
+    for t in attendances:
+        shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.in_time), True)
         start = shift_actual_timings[2].start_datetime
-        end =get_datetime(att.in_time)
+        end =get_datetime(t.in_time)
         diff_time = end - start
         total_minutes_delay += round (diff_time.total_seconds() / 60)
-    # doc.minutes_delay= total_minutes_delay 
     return (total_minutes_delay )
     
 def calculate_early_exit(doc):
@@ -99,23 +100,20 @@ def calculate_early_exit(doc):
     SELECT attendance_date, status, leave_type ,  out_time
     FROM `tabAttendance`
     WHERE
-    status = "Present" AND early_exit = 1
+    status = "Present"  
+	AND early_exit = 1
     AND employee = %s
     AND docstatus = 1
     AND attendance_date between %s and %s
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
 	total_early_out = 0
 	for t in attendances:
-		print("hi")
 		shift_actual_timings = get_actual_start_end_datetime_of_shift(doc.employee, get_datetime(t.out_time), True)
 		start = get_datetime(t.out_time)
 		end = shift_actual_timings[2].end_datetime
 		diff_time = end - start
-		print(diff_time.total_seconds() / 60)
-        # if(diff_time.total_seconds() / 60 >= 6):
 		total_early_out += round (diff_time.total_seconds() / 60)
 		print(total_early_out)
-    # doc.minutes_delay= total_minutes_delay 
 	return (total_early_out )
 
 def fetch_shift(self):
@@ -137,3 +135,18 @@ def calculate_forget_fingerprints(doc):
     ''', values=(doc.employee, doc.start_date, doc.end_date), as_dict=1)
 	total_number_of_forget_fingerprints = len(attendances)
 	return total_number_of_forget_fingerprints 
+
+def calculate_exit_permit(doc):
+	total_duration= 0
+	exit_permit = frappe.db.sql('''
+         SELECT from_time , to_time , duration , to_date
+         FROM `tabexit permit`
+         WHERE
+         docstatus = 1 
+         AND to_date between %s and %s
+         ''', values=(doc.start_date, doc.end_date), as_dict=1)
+	if exit_permit:
+		total_duration = exit_permit[0].duration
+		total_duration = sum(item['duration'] for item in exit_permit)
+	return total_duration
+	
