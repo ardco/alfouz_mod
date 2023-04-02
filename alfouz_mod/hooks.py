@@ -103,12 +103,12 @@ override_doctype_class = {
 # Hook on document methods and events
 
 doc_events = {
-# "*": {
+"Employee": {
 "on_update": "alfouz_mod.emp_working_years.recalculate_years_of_work",
 # # "on_cancel": "method",
 # # "on_trash": "method"
 }
-# }
+}
 # doc_events = {
 #     "Salary Slip" :{
 #     "validate": "alfouz_mod.salary.calculate_late_houres"
