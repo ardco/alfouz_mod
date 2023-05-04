@@ -19,7 +19,9 @@ fixtures = ['Custom Field' , 'Translation']
 # include js, css files in header of desk.html
 # app_include_css = "/assets/alfouz_mod/css/alfouz_mod.css"
 # app_include_js = "/assets/alfouz_mod/js/alfouz_mod.js"
-
+app_include_css = [
+    "/assets/alfouz_mod/css/custom.css"
+]
 # include js, css files in header of web template
 # web_include_css = "/assets/alfouz_mod/css/alfouz_mod.css"
 # web_include_js = "/assets/alfouz_mod/js/alfouz_mod.js"
