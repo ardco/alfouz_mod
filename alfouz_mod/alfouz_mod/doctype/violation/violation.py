@@ -7,7 +7,7 @@ from frappe.model.document import Document
 from frappe import _
 from frappe.utils import flt, today, getdate, add_years, time_diff, get_datetime_str
 from frappe.utils import get_first_day, add_months, get_last_day
-
+from erpnext.payroll.doctype.salary_structure.salary_structure import SalaryStructure
 
 class Violation(Document):
 
@@ -63,52 +63,75 @@ class Violation(Document):
         self.make_deduction(target, violation_actions)
 
     def on_cancel(self):
-        doc = frappe.get_doc({
-            "doctype": "Additional Salary",
-            "employee": self.employee,
-            "employee_name": self.employee_name,
-            "payroll_date": today(),
-            "salary_component": "تسويات اضافة",
-            "company": self.company,
-            "type": "Earning",
-            "amount": self.deduction,
-        })
-        doc = doc.insert()
-        doc.submit()
-        frappe.db.set(self, 'additional_salary_earning', doc.name)
-        frappe.db.commit()
+        salary_component = frappe.get_doc("violation setting")
+        deduction_refund =  salary_component.deduction_refund
+        if not deduction_refund : 
+            frappe.throw(_("Please setup the violation setting first"))
+        else:
+            doc = frappe.get_doc({
+                "doctype": "Additional Salary",
+                "employee": self.employee,
+                "employee_name": self.employee_name,
+                "payroll_date": today(),
+                "salary_component": deduction_refund,
+                "company": self.company,
+                "type": "Earning",
+                "amount": self.deduction,
+            })
+            doc = doc.insert()
+            doc.submit()
+            frappe.db.set(self, 'additional_salary_earning', doc.name)
+            frappe.db.commit()
 
     def on_submit(self):
-        doc = frappe.get_doc({
-            "doctype": "Additional Salary",
-            "employee": self.employee,
-            "employee_name": self.employee_name,
-            "payroll_date": today(),
-            "salary_component": "تسويات خصم",
-            "company": self.company,
-            "type": "Deduction",
-            "amount": self.deduction,
-        })
-        doc = doc.insert()
-        doc.submit()
-        frappe.db.set(self, 'additional_salary_deduction', doc.name)
-        frappe.db.commit()
-        # frappe.db.sql(
-        #     """update `tabAdditional Salary` set workflow_state ="Approved" where name='{}'""".format(doc.name))
+        salary_component = frappe.get_doc("violation setting")
+        deduction =  salary_component.deduction
+        if not deduction : 
+            frappe.throw(_("Please setup the violation setting first"))
+        else:
+            doc = frappe.get_doc({
+                "doctype": "Additional Salary",
+                "employee": self.employee,
+                "employee_name": self.employee_name,
+                "payroll_date": today(),
+                "salary_component": deduction,
+                "company": self.company,
+                "type": "Deduction",
+                "amount": self.deduction,
+            })
+            doc = doc.insert()
+            doc.submit()
+            frappe.db.set(self, 'additional_salary_deduction', doc.name)
+            frappe.db.commit()
+            # frappe.db.sql(
+            #     """update `tabAdditional Salary` set workflow_state ="Approved" where name='{}'""".format(doc.name))
 
+    # give daily rate
     def get_daily_rate(self, employee, start_date, end_date):
         doc = self.get_salary(employee, start_date, end_date)
-        return doc.gross_pay / 30
-
+        return doc.base / 30
+    
+    # get the base salary for this emplyee from the last salary structure assignment active
     def get_salary(self, employee, start_date, end_date):
-        doc = frappe.get_doc({"doctype": "Salary Slip", "employee": employee,
-                              "start_date": start_date, "end_date": end_date, "payroll_frequency": "Monthly"})
-        doc.get_emp_and_leave_details()
-        if doc.gross_pay is not None:
+        # doc = frappe.get_doc({"doctype": "Salary Slip", "employee": employee,
+        #                       "start_date": start_date, "end_date": end_date, "payroll_frequency": "Monthly"})
+        # # doc.get_emp_and_leave_details()
+        # Fetch the latest salary structure assignment for the employee
+        salary_structure_assignment = frappe.db.get_list(
+            "Salary Structure Assignment",
+            filters = {
+                "employee": employee,
+                "docstatus": 1
+            },
+            order_by = "creation desc",
+            limit = 1
+        )
+        doc = frappe.get_doc('Salary Structure Assignment' , salary_structure_assignment[0].name)
+        if doc.base is not None:
             return doc
         else:
             frappe.throw(
-                _("Please create Salary Structure for employee {}".format(employee)))
+                _("Please create Salary Structure for employee this {}".format(employee)))
 
     def make_deduction(self, target_frequency, violation_actions):
         daily = self.get_daily_rate(self.employee,
